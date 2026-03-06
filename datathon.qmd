@@ -173,12 +173,12 @@ Let's visualize the variable `Weight` and `Sex` with a box plot using `ggplot`:
 
 ```{r}
 ggplot(df, aes(x = Sex, y = Weight)) +
-  geom_boxplot() +
+  geom_boxplot(fill = "lightblue") +
   labs(
     title = "Boxplot of Weight by Sex",
     x = "Sex",
     y = "Weight"
-  )
+  ) + theme_minimal()
 ```
 From the box plot we see that male Foxs tend to be slightly heavier than female Foxes.
 
