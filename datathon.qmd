@@ -1,0 +1,347 @@
+---
+title: 'Datathon: Hands-on Afternoon Activity'
+author: "UCSB Data Day  --  Southern California Consortium for Data Science"
+date: "Saturday, March 7, 2026"
+ 
+format:
+  html:
+    df_print: kable
+    margin-header: |
+      ![](SCCDS.png)
+  pdf:
+    documentclass: report
+    papersize: letter
+    geometry:
+      - top=30mm
+      - left=20mm
+      - heightrounded
+knitr:
+  opts_knit:
+    root.dir: "~/Dropbox/Code/UCSB_DataDay_2026"
+---
+
+## Channel Islands
+
+The **Channel Islands** are a chain of eight islands located off the southern coast of California in the Pacific Ocean. They are known for their stunning natural beauty, ecological richness, and deep cultural history.
+
+### The Eight Channel Islands (North to South)
+
+1.  **San Miguel Island**
+
+2.  **Santa Rosa Island**
+
+3.  **Santa Cruz Island**
+
+4.  **Anacapa Island**
+
+5.  **Santa Barbara Island**
+
+6.  **San Nicolas Island**
+
+7.  **San Clemente Island**
+
+8.  **Santa Catalina Island**
+
+### [Channel Islands National Park](https://www.nps.gov/chis/index.htm)
+
+-   Includes **five islands**: *San Miguel*, *Santa Rosa*, *Santa Cruz*, *Anacapa*, and *Santa Barbara*.
+-   Sometimes called the **"Galápagos of North America"** for its rich biodiversity and many **endemic species**.
+-   Accessible only by **boat or small plane**.
+-   Ideal for hiking, kayaking, camping, and wildlife observation.
+
+### Cultural and Historical Significance
+
+-   Originally inhabited by [**Chumash** and **Tongva**](https://www.nps.gov/chis/learn/historyculture/nativeinhabitants.htm#:~:text=With%20a%20current%20population%20nearly,organized%20Chumash%20tribal%20groups%20exist) indigenious groups for thousands of years.
+-   Home to important archaeological and cultural heritage sites.
+
+## Island Fox (*Urocyon littoralis*)
+
+The **island fox** is a small, charismatic canid species **endemic** to six of the eight **Channel Islands** off the coast of southern California. It's one of the best examples of **island dwarfism**, having evolved from the mainland gray fox (*Urocyon cinereoargenteus*) to become significantly smaller.
+
+In the **1990s**, several island fox populations faced **near extinction** due to golden eagle predation, canine distemper virus, and habitat degradation. The island fox was listed as endangered in 2004. Recovery efforts of the island fox included removal of golden eagles, vaccination and captive breeding programs, reintroduction of native bald eagles, and habitat restoration.
+
+## Activity 1
+
+As a start, you will investigate one of the two sections, [Fox Weight](#fox-weight) or [Fox Reproductive Status](#fox-rs). Follow the guidelines in the section of your choice and complete one of the challenges. **You may also analyze the data in any other way or work on the other section, but it is not necessary.** 
+
+
+## Data and Prep
+
+Using the [tutorial](https://www.inqs.info/ci_datathon_25/tutorial.html) and example analysis, complete at least one of the challenges.
+
+
+The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the [Databook](https://www.inqs.info/ci_datathon_25/codebook_19052696).
+
+
+### Loading Packages
+
+```{r}
+library(tidyverse)
+```
+
+### Loading Data
+
+We will load the data into the R workspace using the `read_csv` function:
+
+```{r}
+#| echo: true
+df <- read_csv(here::here("data_for_datathon_2014_2016.csv")) # Loads the Data Set into the object df
+```
+
+### Cleaning Data
+
+#### Renaming Categories
+
+Looking at the [Databook](https://www.inqs.info/ci_datathon_25/codebook_19052696), the variables `Vaccinations`, `ReproductiveStatus` and `BodyCondition` have interesting ways they are coded. In `Vaccinations`, missing values (`NA`) are considered as not vaccinated; therefore, changing the missing to "NV" will ensure that they are correctly classified, see data book. In `ReproductiveStatus`, the missing values (`NA`) indicate unknown reproductive status. In `BodyCondition`, the numerical values 1, 2, 3, 4, and 5, represent a condition. To make the condition easier, we will convert them to the categories. Run the code below to alter them:
+
+```{r}
+df <- df |> mutate( # Will change the variables in the df data set
+    Vaccinations = case_when(is.na(Vaccinations) ~ "NV", .default = Vaccinations), # Reclassifies Missing Data in Vaccination as "N" per code book.
+    ReproductiveStatus = case_when(is.na(ReproductiveStatus) ~ "UN", .default = ReproductiveStatus), # Reclassifies Missing Data in Vaccination as "N" per code book.
+    BodyCondition = case_when( # Begins to modify BodyCondition
+        as.character(BodyCondition) == "1" ~ "emaciated", # Changes 1 to emaciated
+        as.character(BodyCondition) == "2" ~ "thin", # Changes 2 to thin
+        as.character(BodyCondition) == "3" ~ "healthy wild", # Changes 3 to healthy wild 
+        as.character(BodyCondition) == "4" ~ "extra fat reserves", # Changes 4 to Extra Fat Reserve
+        as.character(BodyCondition) == "5" ~ "extreme fat reserves" # Changes 5 to Extreme Fat Reserves
+        )
+    )
+```
+
+#### Missing Values
+
+Several variables in the data set may have missing values. Using the `summary()`, we can determine which variables have missing values by looking at the "NA's" category.
+
+```{r}
+summary(df)
+```
+
+
+We notice that the variables `AgeClass`, `Weight`, and `BodyCondition` have missing values. **For this analysis, we will remove the missing values (`NA`).**
+
+```{r}
+df <- drop_na(df, AgeClass, Weight, BodyCondition) # Removes the missing values (NA) using the variables AgeClass, Weight, and BodyCondition
+```
+
+**After cleaning the data, this should result in 1,967 recorded foxes!**
+
+```{r}
+nrow(df)
+```
+
+## Fox Weight Analysis {#fox-weight}
+
+Imagine you're a field biologist tracking animal health across the remote Santa Rosa and San Miguel Islands. You’ve noticed that some animals seem heavier in certain years—but is it just your imagination, or is there a real trend?
+
+The `Weght` variable contains information of the Fox's weight in killogrgms. Let's start by calculating the mean weight and standard deviation of weight using `mean()` and `sd()` functions:
+
+```{r}
+mean_weight<-mean(df$Weight)
+sd_weight<-sd(df$Weight)
+mean_weight
+sd_weight #printing the values
+```
+We see that mean weight of a fox is about 1.9 kg (which is about 4 pounds) with standard deviation about .41 kg.
+
+We will use the `table()` and `prop.table()` function to get the frequencies and proportions for the `Sex`.
+
+```{r}
+count_df <- table(df$Sex) # Using the 'Sex' variable from the `df` data set, we count the frequencies of each category with the table function and storing it in rs_df.
+count_df # Printing out the contents of "rs_df"
+```
+
+Using the `table()` function, we can see that there were 923 female and 1044 male Foxes captured.
+
+```{r}
+prop.table(count_df) # Computing the Proportions of "rs_df"
+```
+
+Using the `prop.table()` function, we can see that that there are slightly more male Foxes (about 53%) vs. female Foxes (about 47%).
+
+We can visualize the data using the `ggplot` functions:
+
+```{r}
+ggplot(df) + # Setting up the data to create a plot.
+  geom_bar(aes(Sex)) # Creating a bar chart based on the variable "ReproductiveStatus"
+```
+
+The bar plot demonstrates that there are more males than females.
+
+### Weight vs Sex
+
+Let's visualize the variable `Weight` and `Sex` with a box plot using `ggplot`:
+
+```{r}
+ggplot(df, aes(x = Sex, y = Weight)) +
+  geom_boxplot() +
+  labs(
+    title = "Boxplot of Weight by Sex",
+    x = "Sex",
+    y = "Weight"
+  )
+```
+From the box plot we see that male Foxs tend to be slightly heavier than female Foxes.
+
+We can use `group_by()` function to separate male from female population and calculate means and standard deviations separately:
+
+```{r}
+weight_summary <- df %>%
+  group_by(Sex) %>%
+  summarise(
+    mean_weight = mean(Weight),
+    sd_weight = sd(Weight),
+    .groups = "drop"
+  )
+weight_summary
+
+```
+This table confirms that male Foxes are slightly heavier, with mean weight of about 1.99 kg, than female Foxes, whose mean weight is about 1.88 kg. Standard deviations  are also slightly higher for male Foxes.
+
+#### Weight vs Sex over time
+
+To see weight vs sex trend over time we can use `group_by()` and `ggplot` functions again:
+
+```{r}
+weight_summary_yearly <- df %>%
+  group_by(Sex, SamplingYear) %>%
+  summarise(
+    mean_weight = mean(Weight, na.rm = TRUE),
+    sd_weight = sd(Weight, na.rm = TRUE),
+    .groups = "drop"
+  ) #group the data by Sex and Year and calculate mean and standard deviation of weight
+weight_summary_yearly
+```
+From the table we see a downward trend in weight for both females and males across years. Let's plot it on the graph:
+
+```{r}
+ggplot(weight_summary_yearly, aes(x = SamplingYear, y = mean_weight)) +
+  geom_line() +
+  geom_point() +
+  geom_errorbar(aes(ymin = mean_weight - sd_weight,
+                    ymax = mean_weight + sd_weight), width = 0.2) +
+  facet_wrap(~ Sex) +
+  labs(
+    title = "Average Weight by Year and Sex",
+    y = "Mean Weight",
+    x = "Year"
+  )
+```
+::: {.callout-note icon="false"}
+#### Weight vs Sex over time by Island
+
+Take a moment to conduct the same analysis for different `Islands` separately and comment on the trends you see:
+
+```{r}
+#Santa Rosa Fox population 
+
+SR_df<-filter(df,Island=="SRI")
+
+#San Miguel Fox population
+SM_df<-filter(df,Island=="SMI")
+
+```
+:::
+
+### Questions to Think About
+
+::: {.callout-tip icon="false"}
+#### Vaccinations
+
+Analyse the interaction between `Weight` and `Vaccinations`
+:::
+
+::: {.callout-warning icon="false"}
+### Body Condition
+
+Analyse the interaction between `Weight` and `BodyCondition`
+:::
+
+## Fox Reproductive Status Analysis {#fox-rs}
+
+The `ReproductiveStatus` variable contains information of the Fox's reproductive status when captures. This data is recorded as "N" (Not actively reproductive), "L" (Lactating), "SL" (Signs of Lactating), and "TD" (Testes Distended).
+
+### Descriptive Statistics
+
+#### Reproductive Status
+
+We will use the `table()` and `prop.table()` function to get the frequencies and proportions for the `ReproductiveStatus`.
+
+```{r}
+rs_df <- table(df$ReproductiveStatus) # Using the 'ReproductiveStatus' variable from the `df` data set, we count the frequencies of each category with the table function and storing it in rs_df.
+rs_df # Printing out the contents of "rs_df"
+```
+
+Using the `table()` function, we can see that there are 3 common reproductive statuses by Fox: "L" at 18, "SL" at 244, "TD" at 1030, and "UN" at 675.
+
+```{r}
+prop.table(rs_df) # Computing the Proportions of "rs_df"
+```
+
+Using the `prop.table()` function, we can see that that the most common status is "TD" at 52.4% and the least common is "L" at the 0.9%. Both "SL" and "UN" represent 12.4% and 34.3% of the data, respectively.
+
+We can visualize the data using the `ggplot` functions:
+
+```{r}
+ggplot(df) + # Setting up the data to create a plot.
+  geom_bar(aes(ReproductiveStatus)) # Creating a bar chart based on the variable "ReproductiveStatus"
+```
+
+The bar plot demonstrates that "TD" is the most common status in the data, and "L" is the least common status in the data.
+
+::: {.callout-note icon="false"}
+#### Analysing Sex
+
+Take a moment to conduct the same analysis with the `Sex` variable.
+:::
+
+### Sex and Reproductive Status
+
+Let's compare the frequencies between the variables `Sex` and `Reproductive Status`. We will be using the same `table()` function:
+
+```{r}
+xy_df <- table(df$ReproductiveStatus, df$Sex)
+# Use the variables "ReproductiveStatus" and "Sex" from the "df" data set
+# Use the table function to compute the crosstabs
+# Store the results in the xy_df object
+
+xy_df # Print results out
+```
+
+The results show that certain categorical combinations between `ReproductiveStatus` and `Sex` are 0, which is to be expected. The category "UN" is found in both Male and Female foxes. Looking at Female foxes, The most common type is "UN", followed by "SL". For Male foxes, the most common type was "TD".
+
+Let's find the proportions for each the combination of the variables using the `prop.table()` function.
+
+```{r}
+prop.table(xy_df)
+```
+
+We can see that 52.4% of the data are Male and "TD" foxes, 33.6% of the data are Female and "UN" foxes, and 12.4% of the data are Female and "SL" foxes.
+
+Let's visualize the variable `ReproductiveStatus` and `Sex` with a stacked bar plot:
+
+```{r}
+ggplot(df) +
+  geom_bar(aes(Sex, fill = ReproductiveStatus))
+```
+
+The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see tha tthe most common reproductive status being unknown.
+
+### Challenges
+
+::: {.callout-note icon="false"}
+#### Age Class
+
+Analyse the interaction between `ReproductiveStatus` and `AgeClass`
+:::
+
+::: {.callout-tip icon="false"}
+#### Vaccinations
+
+Analyse the interaction between `ReproductiveStatus` and `Vaccinations`
+:::
+
+::: {.callout-warning icon="false"}
+### Capture Type
+
+Analyse the interaction between `ReproductiveStatus` and `Capture Type`
+:::
