@@ -195,10 +195,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-and-prep" class="level2">
 <h2 class="anchored" data-anchor-id="data-and-prep">Data and Prep</h2>
-<p>Using the <a href="https://www.inqs.info/ci_datathon_25/tutorial.html">tutorial</a> and example analysis, complete at least one of the challenges.</p>
-<p>The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the <a href="https://www.inqs.info/ci_datathon_25/codebook_19052696">Databook</a>.</p>
+<p>The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the <a href="https://github.com/mludkov/UCSB_Data_Day_2026/blob/gh-pages/data_for_datathon_2014_2016.csv">Databook</a>.</p>
 <section id="loading-packages" class="level3">
 <h3 class="anchored" data-anchor-id="loading-packages">Loading Packages</h3>
+<p>The <code>tidyverse</code> suite is a collection of data analysis packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -219,7 +219,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="loading-data">Loading Data</h3>
 <p>We will load the data into the R workspace using the <code>read_csv</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data_for_datathon_2014_2016.csv"</span>)) <span class="co"># Loads the Data Set into the object df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Need to modify to load the file from the location where you downloaded it</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data_for_datathon_2014_2016.csv"</span>)) <span class="co"># Loads the Data Set into the object df</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4975 Columns: 16
 ── Column specification ────────────────────────────────────────────────────────
@@ -237,7 +238,7 @@ dttm (1): TrapDate
 <h3 class="anchored" data-anchor-id="cleaning-data">Cleaning Data</h3>
 <section id="renaming-categories" class="level4">
 <h4 class="anchored" data-anchor-id="renaming-categories">Renaming Categories</h4>
-<p>Looking at the <a href="https://www.inqs.info/ci_datathon_25/codebook_19052696">Databook</a>, the variables <code>Vaccinations</code>, <code>ReproductiveStatus</code> and <code>BodyCondition</code> have interesting ways they are coded. In <code>Vaccinations</code>, missing values (<code>NA</code>) are considered as not vaccinated; therefore, changing the missing to “NV” will ensure that they are correctly classified, see data book. In <code>ReproductiveStatus</code>, the missing values (<code>NA</code>) indicate unknown reproductive status. In <code>BodyCondition</code>, the numerical values 1, 2, 3, 4, and 5, represent a condition. To make the condition easier, we will convert them to the categories. Run the code below to alter them:</p>
+<p>Looking at the <a href="https://github.com/mludkov/UCSB_Data_Day_2026/blob/gh-pages/IslandFoxes_codebook.pdf">Codebook</a>, the variables <code>Vaccinations</code>, <code>ReproductiveStatus</code> and <code>BodyCondition</code> are coded in interesting ways. In <code>Vaccinations</code>, missing values (<code>NA</code>) are considered as not vaccinated; therefore, changing the missing to “NV” will ensure that they are correctly classified. In <code>ReproductiveStatus</code>, the missing values (<code>NA</code>) indicate unknown reproductive status. In <code>BodyCondition</code>, the numerical values 1, 2, 3, 4, and 5, represent a condition. To make the condition easier, we will convert them to the categories. Run the code below to alter them:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>( <span class="co"># Will change the variables in the df data set</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">Vaccinations =</span> <span class="fu">case_when</span>(<span class="fu">is.na</span>(Vaccinations) <span class="sc">~</span> <span class="st">"NV"</span>, <span class="at">.default =</span> Vaccinations), <span class="co"># Reclassifies Missing Data in Vaccination as "N" per code book.</span></span>
@@ -254,7 +255,7 @@ dttm (1): TrapDate
 </section>
 <section id="missing-values" class="level4">
 <h4 class="anchored" data-anchor-id="missing-values">Missing Values</h4>
-<p>Several variables in the data set may have missing values. Using the <code>summary()</code>, we can determine which variables have missing values by looking at the “NA’s” category.</p>
+<p>Several variables in the data set may be missing. Using the <code>summary()</code>, we can determine which variables have missing values by looking at the “NA’s” category.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -317,7 +318,7 @@ dttm (1): TrapDate
 <section id="fox-weight" class="level2">
 <h2 class="anchored" data-anchor-id="fox-weight">Fox Weight Analysis</h2>
 <p>Imagine you’re a field biologist tracking animal health across the remote Santa Rosa and San Miguel Islands. You’ve noticed that some animals seem heavier in certain years—but is it just your imagination, or is there a real trend?</p>
-<p>The <code>Weght</code> variable contains information of the Fox’s weight in killogrgms. Let’s start by calculating the mean weight and standard deviation of weight using <code>mean()</code> and <code>sd()</code> functions:</p>
+<p>The <code>Weght</code> variable contains information of the Fox’s weight in kilograms. Let’s start by calculating the mean weight and standard deviation of weight using <code>mean()</code> and <code>sd()</code> functions:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mean_weight<span class="ot">&lt;-</span><span class="fu">mean</span>(df<span class="sc">$</span>Weight)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sd_weight<span class="ot">&lt;-</span><span class="fu">sd</span>(df<span class="sc">$</span>Weight)</span>
@@ -331,7 +332,7 @@ dttm (1): TrapDate
 </div>
 </div>
 <p>We see that mean weight of a fox is about 1.9 kg (which is about 4 pounds) with standard deviation about .41 kg.</p>
-<p>We will use the <code>table()</code> and <code>prop.table()</code> function to get the frequencies and proportions for the <code>Sex</code>.</p>
+<p>We use the <code>table()</code> and <code>prop.table()</code> functions to get the frequencies and proportions for the <code>Sex</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>count_df <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>Sex) <span class="co"># Using the 'Sex' variable from the `df` data set, we count the frequencies of each category with the table function and storing it in rs_df.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>count_df <span class="co"># Printing out the contents of "rs_df"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -350,11 +351,12 @@ Female   Male
 0.4692425 0.5307575 </code></pre>
 </div>
 </div>
-<p>Using the <code>prop.table()</code> function, we can see that that there are slightly more male Foxes (about 53%) vs.&nbsp;female Foxes (about 47%).</p>
-<p>We can visualize the data using the <code>ggplot</code> functions:</p>
+<p>The <code>prop.table()</code> function shows the respective percentages: there are slightly more male Foxes (about 53%) vs.&nbsp;female Foxes (about 47%).</p>
+<p>We can visualize the data using the <code>ggplot</code> functions. Namely we build a bar plot that shows those above counts visually (with more Male than Female foxes):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> <span class="co"># Setting up the data to create a plot.</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Sex)) <span class="co"># Creating a bar chart based on the variable "ReproductiveStatus"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Sex)) <span class="sc">+</span> <span class="co"># Creating a bar chart based on the variable "ReproductiveStatus" </span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -363,10 +365,9 @@ Female   Male
 </div>
 </div>
 </div>
-<p>The bar plot demonstrates that there are more males than females.</p>
 <section id="weight-vs-sex" class="level3">
 <h3 class="anchored" data-anchor-id="weight-vs-sex">Weight vs Sex</h3>
-<p>Let’s visualize the variable <code>Weight</code> and <code>Sex</code> with a box plot using <code>ggplot</code>:</p>
+<p>Let’s visualize the variable <code>Weight</code> and <code>Sex</code> with a boxplot using <code>ggplot</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Sex, <span class="at">y =</span> Weight)) <span class="sc">+</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
@@ -383,7 +384,7 @@ Female   Male
 </div>
 </div>
 </div>
-<p>From the box plot we see that male Foxs tend to be slightly heavier than female Foxes.</p>
+<p>From the box plot we see that male Foxs tend to be slightly <em>heavier</em> than female Foxes.</p>
 <p>We can use <code>group_by()</code> function to separate male from female population and calculate means and standard deviations separately:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>weight_summary <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
@@ -458,7 +459,7 @@ Weight vs Sex over time by Island
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Take a moment to conduct the same analysis for different <code>Islands</code> separately and comment on the trends you see:</p>
+<p>Here is a first question for you to answer: do the foxes on different islands have the same weight? Is there an island where the foxes are <strong>significantly</strong> heavier than others? To conduct such analysis, you can filter by different <code>Islands</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Santa Rosa Fox population </span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -483,7 +484,7 @@ Vaccinations
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Analyse the interaction between <code>Weight</code> and <code>Vaccinations</code></p>
+<p>Do vaccinated foxes have a different weight compared to unvaccinated ones? To answer this, study the relationship between <code>Weight</code> and <code>Vaccinations</code></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -496,7 +497,7 @@ Body Condition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Analyse the interaction between <code>Weight</code> and <code>BodyCondition</code></p>
+<p>The dataset has a variable called <code>BodyCondition</code>. What proportion of foxes are well nourished? Do some islands have a larger proportion of “fat” foxes than others? How does <code>BodyCondition' connect with</code>Weight’? For the latter, you could look into scatter plots.</p>
 </div>
 </div>
 </section>
@@ -504,10 +505,6 @@ Body Condition
 <section id="fox-rs" class="level2">
 <h2 class="anchored" data-anchor-id="fox-rs">Fox Reproductive Status Analysis</h2>
 <p>The <code>ReproductiveStatus</code> variable contains information of the Fox’s reproductive status when captures. This data is recorded as “N” (Not actively reproductive), “L” (Lactating), “SL” (Signs of Lactating), and “TD” (Testes Distended).</p>
-<section id="descriptive-statistics" class="level3">
-<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h3>
-<section id="reproductive-status" class="level4">
-<h4 class="anchored" data-anchor-id="reproductive-status">Reproductive Status</h4>
 <p>We will use the <code>table()</code> and <code>prop.table()</code> function to get the frequencies and proportions for the <code>ReproductiveStatus</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rs_df <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>ReproductiveStatus) <span class="co"># Using the 'ReproductiveStatus' variable from the `df` data set, we count the frequencies of each category with the table function and storing it in rs_df.</span></span>
@@ -527,8 +524,7 @@ Body Condition
 0.009150991 0.124046772 0.523640061 0.343162176 </code></pre>
 </div>
 </div>
-<p>Using the <code>prop.table()</code> function, we can see that that the most common status is “TD” at 52.4% and the least common is “L” at the 0.9%. Both “SL” and “UN” represent 12.4% and 34.3% of the data, respectively.</p>
-<p>We can visualize the data using the <code>ggplot</code> functions:</p>
+<p>Using the <code>prop.table()</code> function, we can see that that the most common status is “TD” at 52.4% and the least common is “L” at the 0.9%. Both “SL” and “UN” represent 12.4% and 34.3% of the data, respectively. In barplot format we have:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span> <span class="co"># Setting up the data to create a plot.</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(ReproductiveStatus)) <span class="co"># Creating a bar chart based on the variable "ReproductiveStatus"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -540,24 +536,8 @@ Body Condition
 </div>
 </div>
 </div>
-<p>The bar plot demonstrates that “TD” is the most common status in the data, and “L” is the least common status in the data.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Analysing Sex
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Take a moment to conduct the same analysis with the <code>Sex</code> variable.</p>
-</div>
-</div>
-</section>
-</section>
-<section id="sex-and-reproductive-status" class="level3">
-<h3 class="anchored" data-anchor-id="sex-and-reproductive-status">Sex and Reproductive Status</h3>
+<section id="sex-and-reproductive-status" class="level4">
+<h4 class="anchored" data-anchor-id="sex-and-reproductive-status">Sex and Reproductive Status</h4>
 <p>Let’s compare the frequencies between the variables <code>Sex</code> and <code>Reproductive Status</code>. We will be using the same <code>table()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>xy_df <span class="ot">&lt;-</span> <span class="fu">table</span>(df<span class="sc">$</span>ReproductiveStatus, df<span class="sc">$</span>Sex)</span>
@@ -588,11 +568,12 @@ Analysing Sex
   UN 0.336044738 0.007117438</code></pre>
 </div>
 </div>
-<p>We can see that 52.4% of the data are Male and “TD” foxes, 33.6% of the data are Female and “UN” foxes, and 12.4% of the data are Female and “SL” foxes.</p>
-<p>Let’s visualize the variable <code>ReproductiveStatus</code> and <code>Sex</code> with a stacked bar plot:</p>
+<p>We can see that 52.4% of the data are Male and “TD” foxes, 33.6% of the data are Female and “UN” foxes, and 12.4% of the data are Female and “SL” foxes. To visualize how the variable <code>ReproductiveStatus</code> and <code>Sex</code> related to each other we use a stacked bar plot:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Sex, <span class="at">fill =</span> ReproductiveStatus))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Sex, <span class="at">fill =</span> ReproductiveStatus)) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>), <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -601,7 +582,7 @@ Analysing Sex
 </div>
 </div>
 </div>
-<p>The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see tha tthe most common reproductive status being unknown.</p>
+<p>The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see that the most common reproductive status is Unknown.</p>
 </section>
 <section id="challenges" class="level3">
 <h3 class="anchored" data-anchor-id="challenges">Challenges</h3>
@@ -615,33 +596,7 @@ Age Class
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Analyse the interaction between <code>ReproductiveStatus</code> and <code>AgeClass</code></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Vaccinations
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Analyse the interaction between <code>ReproductiveStatus</code> and <code>Vaccinations</code></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Capture Type
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Analyse the interaction between <code>ReproductiveStatus</code> and <code>Capture Type</code></p>
+<p>How does <code>ReproductiveStatus</code> relate to <code>AgeClass</code> (how old is the fox), to <code>Vaccinations</code>, and to `Capture Type’.</p>
 </div>
 </div>
 
