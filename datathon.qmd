@@ -15,7 +15,7 @@ format:
 
 The **Channel Islands** are a chain of eight islands located off the southern coast of California in the Pacific Ocean. They are known for their stunning natural beauty, ecological richness, and deep cultural history.
 
-### The Eight Channel Islands (North to South)
+#### The Eight Channel Islands (North to South)
 
 1.  **San Miguel Island**
 
@@ -35,14 +35,14 @@ The **Channel Islands** are a chain of eight islands located off the southern co
 
 Below we will only consider the two bolded islands: SMI and SRI
 
-### [Channel Islands National Park](https://www.nps.gov/chis/index.htm)
+#### [Channel Islands National Park](https://www.nps.gov/chis/index.htm)
 
 -   Includes **five islands**: *San Miguel*, *Santa Rosa*, *Santa Cruz*, *Anacapa*, and *Santa Barbara*.
 -   Sometimes called the "Galápagos of North America" for its rich biodiversity and many **endemic species**.
 -   Accessible only by *boat or small plane*.
 -   Ideal for hiking, kayaking, camping, and wildlife observation.
 
-### Cultural and Historical Significance
+**Cultural and Historical Significance**:
 
 -   Originally inhabited by [**Chumash** and **Tongva**](https://www.nps.gov/chis/learn/historyculture/nativeinhabitants.htm#:~:text=With%20a%20current%20population%20nearly,organized%20Chumash%20tribal%20groups%20exist) indigenious groups for thousands of years.
 -   Home to important archaeological and cultural heritage sites.
@@ -53,10 +53,9 @@ The **island fox** is a small, charismatic canid species *endemic* to six of the
 
 In the **1990s**, several island fox populations faced **near extinction** due to golden eagle predation, canine distemper virus, and habitat degradation. The island fox was listed as endangered in 2004. Recovery efforts of the island fox included removal of golden eagles, vaccination and captive breeding programs, reintroduction of native bald eagles, and habitat restoration.
 
-## Hands-on Activity
+## Mini Datathon
 
-First, please go through the [Introduction](#intro) which includes data preparation and some basics of how this dataset looks like.  
-Depending on your level of comfort, work then on either [Part I](#part1) (Easier) or [Part II](#part2) (Advanced) challenges. If you're ambitious, you can do both, or even come up with your own questions.
+First, please go through the [Introduction](#intro) which includes data preparation and some basics of how this dataset looks like. Then start with [Part I](#part1) which has a collection of analysis questions for you to work through. Depending on your level of comfort, take also a look at  [Part II](#part2) which has some more Advanced challenges. If you're ambitious, you can do both, or even come up with your own questions. There are definitely more challenges listed than what is feasible to do in 90 minutes, so tackle those that are of most interest to you. Remember that data science is  always about combining numbers/tables and figures into a *story*. Coding and statistics are just tools to get there. So for instance, if you're fascinated about how/why foxes are being vaccinated, it's totally ok to google for additional background.  
 
 For both groups, we have an **Optional Share-Out** during the last portion of the Datathon: participants can present one result of their choosing to the group. If you would like to do so, make sure to invest time in making a nice plot: play around with the plot `theme`, font sizes, color palettes, labels and layout. Google (via its automatic Gemini search results) is a good tool to dive deep into the myriad ggplot customization options. Note that *everything* in the plot can be customized to your choosing, that is (one of) the power of using a statistical package.
 
@@ -316,10 +315,12 @@ The plot indicate which categories are most dominant in each sex. We can see tha
 
 ### Challenges
 
+The list below is quite long: pick and choose the challenges that appeal to you the most. 
+
 ::: {.callout-note icon="false"}
 #### Age Class
 
-How does `ReproductiveStatus` relate to `AgeClass` (how old is the fox), to `Vaccinations`, and to `Capture Type`.
+How does `ReproductiveStatus` relate to `AgeClass` (how old is the fox), to `Vaccinations`, and to `Capture Type`?
 :::
 
 
@@ -329,7 +330,7 @@ How does `ReproductiveStatus` relate to `AgeClass` (how old is the fox), to `Vac
 How many skunks were caught each year? Are there more skunks on some island than others? (Look at `TrapResult`. Note that some skunks were caught but escaped, see the different possible values of this field!)
 :::
 
-::: {.callout-note icon="false"}
+::: {.callout-tip icon="false"}
 #### Fox Ages
 
 What is the Age distribution of the foxes? How many foxes are less than 1 year old? Does this vary by year or by island? (Look at `AgeClass`. Notice that it's a numeric variable)
@@ -342,9 +343,15 @@ Analyze how often do the traps work (expressed as a success percentage). Namely,
 :::
 
 
+::: {.callout-warning icon="false"}
+#### Record Foxes
+
+A fun exercise is to analyze the extreme fox records. What was the fattest fox ever caught (break this out by Year, by Sex, and by Island)? What is the latest date of a fox capture in this dataset? What is the oldest fox? 
+
+:::
 
 
-## Part 2: For More Advanced Participants {#part2}
+## Part 2: Additional Challenges For More Advanced Participants {#part2}
 
 ### Tracking Foxes
 
@@ -360,7 +367,7 @@ Looking at these records, we can see that it is a Female fox on Santa Rosa Islan
 
 ### Questions to Try Out
 
-::: {.callout-note icon="false"}
+::: {.callout-tip icon="false"}
 #### Tagging Statistics
 How many different foxes have been tagged? If you look at `CaptureType' you can also analyze how many foxes have been observed multiple times. What fraction of foxes were observed just once? How many unique foxes are on each of the two islands?
 
@@ -376,7 +383,14 @@ Find an ``interesting'' fox that has been observed across a lengthy interval of 
 
 While above we considered the general **population** trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. *Time series*, where we put the date (in our case `TrapDate`) on the x-axis and the numeric variable of interest (say `Weight`) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough -- it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016. 
 
-::: {.callout-note icon="false"}
+We can use the piping mechanism to simultaneously filter a specific fox and analyze its record. For instance below, we create a bar plot showing when a given fox was captured: 3 times in 2014 and twice in 2015:
+
+```{r}
+df |> filter(Pittag==989001000415721) |>    # filter by pit tag
+  ggplot() + geom_bar(aes(factor(SamplingYear))) # then plot only those rows
+```
+
+::: {.callout-tip icon="true"}
 #### Fox Time Series
 Find foxes that are observed across multiple months/years and create time series plots for them. Report how your findings align or differ from the population-analysis we did in the Introduction. 
 
