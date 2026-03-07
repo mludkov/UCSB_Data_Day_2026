@@ -8,16 +8,7 @@ format:
     df_print: kable
     margin-header: |
       ![](SCCDS.png)
-  pdf:
-    documentclass: report
-    papersize: letter
-    geometry:
-      - top=30mm
-      - left=20mm
-      - heightrounded
-knitr:
-  opts_knit:
-    root.dir: "~/Dropbox/Code/UCSB_DataDay_2026"
+    embed-resources: true
 ---
 
 ## Channel Islands

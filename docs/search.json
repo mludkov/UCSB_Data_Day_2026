@@ -47,5 +47,110 @@
     "title": "Datathon: Hands-on Afternoon Activity",
     "section": "Part 2: For More Advanced Participants",
     "text": "Part 2: For More Advanced Participants\n\nTracking Foxes\nEach fox gets a unique Pit Tag. This Pittag field allows to track a specific fox across time. For example, let’s consider fox with tag 989001000124022. It shows up in the following records:\n\nlibrary(knitr)\nknitr::kable(df[which(df$Pittag==989001000124022),])\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nIsland\nSamplingYear\nGridCode\nTrapDate\nNightNumber\nTrapNumber\nTrapResult\nPittag\nCaptureType\nSex\nAgeClass\nWeight\nWeight_units\nBodyCondition\nReproductiveStatus\nVaccinations\n\n\n\n\nSRI\n2016\nQC\n2016-08-03\n1\n1\nFOX\n989001000124022\nN\nFemale\n1\n2.55\nkg\nhealthy wild\nUN\nRD\n\n\nSRI\n2016\nQC\n2016-08-05\n3\n2\nFOX\n989001000124022\nR2\nFemale\n1\n2.05\nkg\nhealthy wild\nUN\nN\n\n\nSRI\n2016\nQC\n2016-08-07\n5\n1\nFOX\n989001000124022\nR2\nFemale\n1\n2.15\nkg\nhealthy wild\nUN\nN\n\n\n\n\n\nLooking at these records, we can see that it is a Female fox on Santa Rosa Island that was observed 3 times during the same week in August 2016. The first capture it was tagged (CaptureType = New) and then it was re-tagged twice more.\n\n\nQuestions to Try Out\n\n\n\n\n\n\nTagging Statistics\n\n\n\nHow many different foxes have been tagged? If you look at `CaptureType’ you can also analyze how many foxes have been observed multiple times. What fraction of foxes were observed just once? How many unique foxes are on each of the two islands?\n\n\n\n\n\n\n\n\nFox Life Story\n\n\n\nFind an ``interesting’’ fox that has been observed across a lengthy interval of time (multiple months and years). Investigate its record and write down a story about the life of this fox. For example: how did its weight, reproductive and vaccination status evolve over time? The aim of this Challenge is to convert the data/numbers into a verbal narrative/words.\n\n\n\nTime Series\nWhile above we considered the general population trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. Time series, where we put the date (in our case TrapDate) on the x-axis and the numeric variable of interest (say Weight) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough – it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016.\n\n\n\n\n\n\nFox Time Series\n\n\n\nFind foxes that are observed across multiple months/years and create time series plots for them. Report how your findings align or differ from the population-analysis we did in the Introduction."
+  },
+  {
+    "objectID": "morning.html",
+    "href": "morning.html",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "",
+    "text": "In this introductory one-hour workshop we will learn the basics of R for working with tabular data (think of a spreadsheet, with rows and columns) and plotting.\nOur goals for this first session are:"
+  },
+  {
+    "objectID": "morning.html#what-are-r-and-rstudio",
+    "href": "morning.html#what-are-r-and-rstudio",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "What are R and RStudio?",
+    "text": "What are R and RStudio?\nWe are working with two pieces of software (or apps) at the same time: R and RStudio.\n\nR refers to a programming language as well as the software that runs R code.\n\nFor example, I could type 2+2 in the Console, and that’s purely R. It interprets my input and makes the necessary calculations.\n\nRStudio is a software interface that can make it easier to write R scripts and interact with the R software.\n\nIt is called an Integrated Development Environment (IDE), where we can see other relevant stuff for our data analysis with R."
+  },
+  {
+    "objectID": "morning.html#the-rstudio-layout",
+    "href": "morning.html#the-rstudio-layout",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "The RStudio layout",
+    "text": "The RStudio layout\nLet’s create a new script to start exploring RStudio. On the top menu, click ‘File’ &gt; ‘New File’ &gt; ‘R Script’.\n\n\n\nRStudio screenshot. Source: datacarpentry.org\n\n\nIn the above screenshot, we can see 4 “panes” in the default layout:\n\nTop-Left: the Source pane that displays scripts and files open.\nTop-Right: the Environment pane, which shows all the objects in your current R session (Environment).\n\nThere’s other tabs there, but we’ll focus only on the Environment tab.\n\nBottom-Left: the Console pane, where you can interact directly with an R console, which interprets R commands and prints the results.\n\nThere are also tabs for Terminal and Jobs. Again, we will focus only on the Console tab.\n\nBottom-Right: the Files/Plots/Help/Viewer pane to navigate files or view plots and help pages."
+  },
+  {
+    "objectID": "morning.html#console-vs-r-script",
+    "href": "morning.html#console-vs-r-script",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Console vs R script",
+    "text": "Console vs R script\nWorking in R offers two primary methods: the Console and Scripts. Think of it like cooking a meal.\n\nThe Console (winging it): It is for quick, immediate execution of commands. Like improvising a dish without a recipe, you get results fast, but you can’t easily replicate the process later.\nR Scripts (the saved recipe): A script is a text file where you record your code. Like a well-documented recipe, it ensures your work is repeatable and shareable. It’ has several pros:\n\nReproducibility: You can re-run the entire “recipe” with one click months later.\nEditing: Easily tweak steps without starting over.\nComments: Use the # symbol to write notes. R ignores these lines, making them perfect for explaining why you wrote a specific piece of code."
+  },
+  {
+    "objectID": "morning.html#running-code-from-a-script",
+    "href": "morning.html#running-code-from-a-script",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Running code from a script",
+    "text": "Running code from a script\nLet’s type some code in our script, for example\n\n(2 * 5) / 4\n\n[1] 2.5\n\n\nThere are multiple ways to run this code:\n\nYou can place your cursor in any part of the line of code and click the ‘Run’ button at the top-right corner of the script pane.\nOr even better, you can use a keyboard shortcut, Ctrl+Enter (Cmd+Enter if you’re using a Mac) to run the line of code.\n\nImportant:\n\nWhite space (empty lines) does not affect code. It is encouraged to make code more readable\nIn the console you’ll see the &gt; prompt when R is ready to receive a new command. If it is waiting for more instructions from you, you will see + sign. For example, try running the following code\n\n\n(2 ** 3) -\n\nYou can see the + sign telling you R is waiting for further instruction. This will happen for example when you forget to close a parenthesis. The easiest way to fix it is pressing the Esc key, fixing the code in your script, and running it again."
+  },
+  {
+    "objectID": "morning.html#creating-objects",
+    "href": "morning.html#creating-objects",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Creating objects",
+    "text": "Creating objects\nMost of the time we will be creating objects in our R environment that we can later call, reuse, and modify.\nFor example, to create an object called age with the number value of my current age, I would type\n\nage &lt;- 30\n\nI will see this variable show up in my Environment pane.\nIf I want to calculate how old I will be in 50 years, I can type\n\nage + 50\n\n[1] 80\n\n\nIf you want to create a new object called future_age with this value, you can run\n\nfuture_age &lt;- age + 50\n\nImportant:\n\nR is case sensitive, so take that into consideration when typing commands and object names\nTake advantage of RStudio autocompletion! After typing a few characters, use the Tab key\nDon’t use whitespaces in your variable names (don’t create my name &lt;-, but my_name &lt;- instead), and don’t start them with numbers."
+  },
+  {
+    "objectID": "morning.html#functions",
+    "href": "morning.html#functions",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Functions",
+    "text": "Functions\nWhen programming, it is usual to call functions to perform a given task. Functions take inputs (also called arguments), perform the task with those inputs, and (oftentimes) return an output.\nTo start working today with some real data, let’s call the R built-in function data to load the Palmer penguins dataset\n\ndata(\"penguins\")\n\nWe can take a look at our dataset clicking it in the Environment pane, or using the View function.\n\n\n\nPalmer penguins. Source: allisonhorst.github.io"
+  },
+  {
+    "objectID": "morning.html#libraries",
+    "href": "morning.html#libraries",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Libraries",
+    "text": "Libraries\nWith a huge community of open-source developers around R, its capabilities are being expanded every day. Third-party libraries bring additional functions to R, and we can install them using the install.packages('library_name') command.\nToday, we will only use the tidyverse library, which brings with it a number of other libraries, but there’s only the need to install and load the tidyverse library.\n\ninstall.packages('tidyverse')\n\nAfter installing it, we can load it into our current R environment\n\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nRemember:\n\nWe only need to install a given library with install.packages() once in our computer.\nWe need to load the library with library() once per R session, basically every time we open RStudio. Add it in all your scripts for reproducibility."
+  },
+  {
+    "objectID": "morning.html#challenge-removing-missing-values",
+    "href": "morning.html#challenge-removing-missing-values",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Challenge: Removing missing values",
+    "text": "Challenge: Removing missing values\nWith what you already know (about creating new objects, functions, and arguments), use the drop_na() function to create a new object called penguins_clean, using as an argument our penguins object. When finished, see the documentation for this function running the ?drop_na() command.\n\n# Solution\npenguins_clean &lt;- drop_na(penguins)"
+  },
+  {
+    "objectID": "morning.html#our-first-scatter-plot",
+    "href": "morning.html#our-first-scatter-plot",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Our first scatter plot",
+    "text": "Our first scatter plot\nWe use the ggplot() function to create a plot. In order to tell it what data to use, we need to specify the data argument.\n\nggplot(data = penguins_clean)\n\n\n\n\n\n\n\n\nWe get a blank plot because we haven’t told ggplot() which variables we want to correspond to parts of the plot. We can specify the “mapping” of variables to plot elements, such as x/y coordinates, size, or shape, by using the aes() function.\n\n# adding a mapping to x and y axes\nggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass))\n\n\n\n\n\n\n\n\nNow we’ve got a plot with x and y axes corresponding to variables from penguins_clean. However, we haven’t specified how we want the data to be displayed. We do this using geom_ functions, which specify the type of geometry we want, such as points, lines, or bars. We can add a geom_point() layer to our plot by using the + sign. We indent onto a new line to make it easier to read.\n\nggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass)) +\n  geom_point()\n\n\n\n\n\n\n\n\nAs you can see, geom_point() created a scatter plot. Each point represents an observation, a penguin, and its location on the plot shows that penguin’s flipper length and body mass. As expected, the plot clearly shows a trend: penguins with longer flippers usually weigh more.\nDo you think there’s an additional relationship of these two variables with the species of the penguins? We can add a third variable using the color argument inside the aes() function.\n\nggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass, color = species)) +\n  geom_point()\n\n\n\n\n\n\n\n\nTo know all the things we can do with ggplot, check the following resources:\n\nggplot cheatsheet. You can also have access to it inside RStudio, from the menu Help &gt; Cheat Sheets &gt; Data Visualization with ggplot2\nThe R Graph Gallery\nfrom Data to Viz"
+  },
+  {
+    "objectID": "morning.html#challenge-changing-the-shape-of-points",
+    "href": "morning.html#challenge-changing-the-shape-of-points",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Challenge: Changing the shape of points",
+    "text": "Challenge: Changing the shape of points\nTo make our previous plot even easier to read, let’s make each species have a different shape in the plot. For this, use the shape argument inside the aes() function.\n\n# Solution\nggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass, color = species, shape = species)) +\n  geom_point()"
+  },
+  {
+    "objectID": "morning.html#using-bar-plots",
+    "href": "morning.html#using-bar-plots",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Using bar plots",
+    "text": "Using bar plots\nAll ggplots will follow the structure we just used: call ggplot(), specify the mapping of variables with aes(), and the plot type we want with a given geom_*().\nLet’s do now a bar plot, counting the number of penguins in each island. This is straightforward, using geom_bar as our geometry.\n\nggplot(data = penguins_clean, mapping = aes(x = island)) +\n  geom_bar()\n\n\n\n\n\n\n\n\nTo give a more professional look to our plot, we can modify the axis labels and add a title using the labs() function, like this:\n\nggplot(data = penguins_clean, mapping = aes(x = island)) +\n  geom_bar() +\n  labs(title = \"Number of penguins per island\",\n       x = \"Island\",\n       y = \"Count\")"
+  },
+  {
+    "objectID": "morning.html#challenge-make-your-own-plot",
+    "href": "morning.html#challenge-make-your-own-plot",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "Challenge: Make your own plot",
+    "text": "Challenge: Make your own plot\nUsing the penguins dataset, make your own plot. Look at the cheatsheet or the Graph Gallery for inspiration. To give you a couple of ideas, try a histogram or a box plot. Or add another variable to our previous scatter and bar plots.\nIf you are up for a harder challenge, look into faceting, here is an example:\n\nggplot(penguins_clean, aes(x = flipper_len, y = body_mass, color = species)) +\n  geom_point() + \n  facet_wrap(~island) +\n  labs(title = \"Size vs Weight Across Different Islands\",\n       x = \"Flipper Length (mm)\",\n       y = \"Body Mass (g)\",\n       color = \"Species\")"
+  },
+  {
+    "objectID": "morning.html#what-is-markdown",
+    "href": "morning.html#what-is-markdown",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "What is Markdown?",
+    "text": "What is Markdown?\nMarkdown is a way to write a document using plain text. You can open a Markdown file on any computer, without needing a specialized application or the internet, unlike Google Docs, Microsoft Word, or PDFs.\nIt uses specific syntax (special characters) to add styling to text instead of making you click formatting buttons in an application toolbar.\nBasic Markdown Syntax\nHere is how you format text in Markdown:\nHeaders:\n# Biggest Header\n\n## Second Biggest Header\n\n### Third Biggest Header\nText Styles:\n*This text will be italicized* **This text will be bold**\nLists:\n-   Item 1\n-   Item 2\n    -   Sub-item A"
+  },
+  {
+    "objectID": "morning.html#what-is-quarto",
+    "href": "morning.html#what-is-quarto",
+    "title": "Welcome to Santa Barbara Data Day!",
+    "section": "What is Quarto?",
+    "text": "What is Quarto?\nQuarto is the engine that takes your Markdown file and “renders” it. It runs the R code, creates the graphs, and weaves everything into a beautiful final document (like this HTML page, a PDF, or even a presentation).\nThis is a core skill in Reproducible Research: If your data changes tomorrow, you just click Render, and your entire report updates automatically!"
   }
 ]

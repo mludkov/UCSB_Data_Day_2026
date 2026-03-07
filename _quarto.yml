@@ -1,3 +1,18 @@
 project:
   type: website
   output-dir: docs
+  
+website:
+  title: "UCSB 2026 Data Day"
+  navbar:
+    background: light
+    search: false
+    left:
+      - text: "Intro Session"
+        href: morning.qmd
+      - text: "Datathon"
+        href: datathon.qmd
+      - text: "Dataset"
+        href: data_for_datathon_2014_2016.csv
+      - text: "Codebook"
+        href: IslandFoxes_codebook.pdf
