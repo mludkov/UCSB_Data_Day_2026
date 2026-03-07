@@ -1,0 +1,414 @@
+---
+title: "Welcome to Santa Barbara Data Day!"
+format:
+  html:
+    embed-resources: true
+---
+
+In this introductory one-hour workshop we will learn the basics of R for working with tabular data (think of a spreadsheet, with rows and columns) and plotting.
+
+Our goals for this first session are:
+
+-   Learn what is R and RStudio and how to use them
+-   Write code in a script and run it
+-   Explore a dataset
+-   Make plots
+-   Combine text, code, and plots using Quarto
+
+# 0. Setup
+
+To avoid installation delays and issues, we are going to use R and RStudio from our web browsers via Posit Cloud. Posit is the company behind RStudio, and with a free account in its Cloud service you can run a virtual computer for 25 hours per month.
+
+**But remember, R and RStudio are free and open-source software!** You can download and run them on your computer for free and for unlimited time. We are just using Posit Cloud for convenience during the workshop, but let us know if you want help installing the software.
+
+Instructions:
+
+1.  Go to <https://login.posit.cloud/register> and Sign Up for an account.
+
+    -   You can also use 'Sign up with Google' if you have a Gmail account and want faster access.
+
+2.  If prompted, select 'Posit Cloud' as your destination and verify your email address.
+
+3.  In 'Your Workspace' click the 'New Project' button at the top-right corner and select 'New RStudio Project'.
+
+4.  At the top click 'Untitled Project' to give a name to our project, let's call it "sb-data-day".
+
+5.  That's it! Now you have a working R and RStudio for the workshop.
+
+# 1. Why learn R?
+
+-   R is great for statistical analysis and data science
+-   With a vibrant community, its reach has extended to multiple scientific disciplines (geospatial, bioinformatics, economics)
+-   As a programming language, the results of an analysis do not rely on remembering a succession of pointing and clicking, but instead on a series of written commands
+-   It's free and open-source
+-   You can do all sort of cool stuff with it:
+    -   Amazing, publication-ready plots, as [shown by the BBC news organization](https://bbc.github.io/rcookbook/)
+    -   Interactive and 3d maps, using [rayshader](https://www.rayshader.com/) or [leaflet](https://rstudio.github.io/leaflet/articles/leaflet.html)
+    -   Make interactive data dashboards with [Shiny](https://shiny.posit.co/r/gallery/)
+    -   Analyze Spotify music data, even your own user data, with [spotifyr](https://www.rcharlie.com/spotifyr/)
+
+# 2. Knowing your way around R and RStudio
+
+## What are R and RStudio?
+
+We are working with two pieces of software (or apps) at the same time: R and RStudio.
+
+-   R refers to a programming language as well as the software that runs R code.
+
+    -   For example, I could type `2+2` in the Console, and that's purely R. It interprets my input and makes the necessary calculations.
+
+-   RStudio is a software interface that can make it easier to write R scripts and interact with the R software.
+
+    -   It is called an Integrated Development Environment (IDE), where we can see other relevant stuff for our data analysis with R.
+
+## The RStudio layout
+
+Let's create a new script to start exploring RStudio. On the top menu, click 'File' \> 'New File' \> 'R Script'.
+
+![RStudio screenshot. Source: datacarpentry.org](https://datacarpentry.github.io/R-ecology-lesson/fig/rstudio_screenshot.png){fig-alt="RStudio screenshot, showing the four panes described in the following paragraph"}
+
+In the above screenshot, we can see 4 "panes" in the default layout:
+
+-   Top-Left: the **Source** pane that displays scripts and files open.
+-   Top-Right: the **Environment** pane, which shows all the objects in your current R session (Environment).
+    -   There's other tabs there, but we'll focus only on the Environment tab.
+-   Bottom-Left: the **Console** pane, where you can interact directly with an R console, which interprets R commands and prints the results.
+    -   There are also tabs for Terminal and Jobs. Again, we will focus only on the Console tab.
+-   Bottom-Right: the **Files/Plots/Help/Viewer** pane to navigate files or view plots and help pages.
+
+## Console vs R script
+
+Working in R offers two primary methods: the Console and Scripts. Think of it like cooking a meal.
+
+-   The Console (winging it): It is for quick, immediate execution of commands. Like improvising a dish without a recipe, you get results fast, but you can’t easily replicate the process later.
+
+-   R Scripts (the saved recipe): A script is a text file where you record your code. Like a well-documented recipe, it ensures your work is repeatable and shareable. It' has several pros:
+
+    -   Reproducibility: You can re-run the entire "recipe" with one click months later.
+    -   Editing: Easily tweak steps without starting over.
+    -   Comments: Use the `#` symbol to write notes. R ignores these lines, making them perfect for explaining why you wrote a specific piece of code.
+
+## Running code from a script
+
+Let's type some code in our script, for example
+
+```{r}
+(2 * 5) / 4
+```
+
+There are multiple ways to run this code:
+
+-   You can place your cursor in any part of the line of code and click the 'Run' button at the top-right corner of the script pane.
+-   Or even better, you can use a keyboard shortcut, `Ctrl+Enter` (`Cmd+Enter` if you're using a Mac) to run the line of code.
+
+Important:
+
+-   White space (empty lines) does not affect code. It is encouraged to make code more readable
+-   In the console you'll see the `>` prompt when R is ready to receive a new command. If it is waiting for more instructions from you, you will see `+` sign. For example, try running the following code
+
+```{r, eval=FALSE}
+(2 ** 3) -
+```
+
+You can see the `+` sign telling you R is waiting for further instruction. This will happen for example when you forget to close a parenthesis. The easiest way to fix it is pressing the `Esc` key, fixing the code in your script, and running it again.
+
+## Creating objects
+
+Most of the time we will be creating objects in our R environment that we can later call, reuse, and modify.
+
+For example, to create an object called `age` with the number value of my current age, I would type
+
+```{r}
+age <- 30
+```
+
+I will see this variable show up in my Environment pane.
+
+If I want to calculate how old I will be in 50 years, I can type
+
+```{r}
+age + 50
+```
+
+If you want to create a new object called `future_age` with this value, you can run
+
+```{r}
+future_age <- age + 50
+```
+
+Important:
+
+-   R is case sensitive, so take that into consideration when typing commands and object names
+-   Take advantage of RStudio autocompletion! After typing a few characters, use the `Tab` key
+-   Don't use whitespaces in your variable names (don't create `my name <-`, but `my_name <-` instead), and don't start them with numbers.
+
+## Functions
+
+When programming, it is usual to call functions to perform a given task. Functions take `inputs` (also called `arguments`), perform the task with those inputs, and (oftentimes) return an `output`.
+
+To start working today with some real data, let's call the R built-in function `data` to load the Palmer penguins dataset
+
+```{r}
+data("penguins")
+```
+
+We can take a look at our dataset clicking it in the Environment pane, or using the `View` function.
+
+```{r}
+View(penguins)
+```
+
+![Palmer penguins. Source: allisonhorst.github.io](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-alt="An illustration of three penguin species: a Chinstrap penguin, a Gentoo penguin, and an Adélie penguin"}
+
+## Libraries
+
+With a huge community of open-source developers around R, its capabilities are being expanded every day. Third-party libraries bring additional functions to R, and we can install them using the `install.packages('library_name')` command.
+
+Today, we will only use the `tidyverse` library, which brings with it a number of other libraries, but there's only the need to install and load the tidyverse library.
+
+```{r, eval = FALSE, warning=FALSE}
+install.packages('tidyverse')
+```
+
+After installing it, we can load it into our current R environment
+
+```{r echo=FALSE, warning=FALSE}
+library('tidyverse')
+```
+
+Remember:
+
+-   We only need to install a given library with `install.packages()` once in our computer.
+-   We need to load the library with `library()` once per R session, basically every time we open RStudio. Add it in all your scripts for reproducibility.
+
+# 3. Working with tabular data (a.k.a. dataframe, data table, or tibble in tidyverse jargon)
+
+Frequently, data science is done using tabular data: the kind of data you can find in a spreadsheet, where data is arranged in rows and columns.
+
+Writing code and doing data analysis will be much easier if data is in a tidy format, following three rules:
+
+-   Each variable must have its own column
+-   Each observation must have its own row
+-   Each value must have its own cell
+
+![Tidy data. Source: r4ds.had.co.nz](https://r4ds.had.co.nz/images/tidy-1.png){fig-alt="A diagram illustrating the three rules of tidy data: variables are in columns, observations are in rows, and values are in cells."}
+
+To start exploring our data, we can call some functions on it:
+
+```{r}
+# To return the column names
+colnames(penguins)
+```
+
+```{r}
+# To see the first six rows
+head(penguins)
+```
+
+```{r}
+# Using a different argument in head, to see the first 10 rows
+head(penguins, n = 10)
+```
+
+```{r}
+# To know how many rows and columns our data has
+dim(penguins)
+```
+
+```{r}
+# To get a quick summary of each column in our data
+summary(penguins)
+```
+
+## Challenge: Removing missing values
+
+With what you already know (about creating new objects, functions, and arguments), use the `drop_na()` function to create a new object called `penguins_clean`, using as an argument our `penguins` object. When finished, see the documentation for this function running the `?drop_na()` command.
+
+```{r}
+# Solution
+penguins_clean <- drop_na(penguins)
+```
+
+# 4. Plotting
+
+For plotting, we will use the `ggplot` library. It is part of the `tidyverse`, so there's no need to install or load anything else. We're going to build our plot step by step following this basic template:
+
+```{r}
+# ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +
+#   <GEOM_FUNCTION>()
+```
+
+## Our first scatter plot
+
+We use the `ggplot()` function to create a plot. In order to tell it what data to use, we need to specify the `data` argument.
+
+```{r}
+ggplot(data = penguins_clean)
+```
+
+We get a blank plot because we haven't told `ggplot()` which variables we want to correspond to parts of the plot. We can specify the "mapping" of variables to plot elements, such as x/y coordinates, size, or shape, by using the `aes()` function.
+
+```{r}
+# adding a mapping to x and y axes
+ggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass))
+```
+
+Now we've got a plot with x and y axes corresponding to variables from `penguins_clean`. However, we haven't specified how we want the data to be displayed. We do this using `geom_` functions, which specify the type of `geom`etry we want, such as points, lines, or bars. We can add a `geom_point()` layer to our plot by using the `+` sign. We indent onto a new line to make it easier to read.
+
+```{r}
+ggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass)) +
+  geom_point()
+```
+
+As you can see, `geom_point()` created a scatter plot. Each point represents an observation, a penguin, and its location on the plot shows that penguin's flipper length and body mass. As expected, the plot clearly shows a trend: penguins with longer flippers usually weigh more.
+
+Do you think there's an additional relationship of these two variables with the species of the penguins? We can add a third variable using the `color` argument inside the `aes()` function.
+
+```{r}
+ggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass, color = species)) +
+  geom_point()
+```
+
+To know all the things we can do with `ggplot`, check the following resources:
+
+-   [ggplot cheatsheet](https://rstudio.github.io/cheatsheets/data-visualization.pdf). You can also have access to it inside RStudio, from the menu Help \> Cheat Sheets \> Data Visualization with ggplot2
+-   [The R Graph Gallery](https://r-graph-gallery.com/)
+-   [from Data to Viz](https://www.data-to-viz.com/#treemap)
+
+## Challenge: Changing the `shape` of points
+
+To make our previous plot even easier to read, let's make each species have a different shape in the plot. For this, use the `shape` argument inside the `aes()` function.
+
+```{r}
+# Solution
+ggplot(data = penguins_clean, mapping = aes(x = flipper_len, y = body_mass, color = species, shape = species)) +
+  geom_point()
+```
+
+## Using bar plots
+
+All ggplots will follow the structure we just used: call `ggplot()`, specify the mapping of variables with `aes()`, and the plot type we want with a given `geom_*()`.
+
+Let's do now a bar plot, counting the number of penguins in each island. This is straightforward, using `geom_bar` as our geometry.
+
+```{r}
+ggplot(data = penguins_clean, mapping = aes(x = island)) +
+  geom_bar()
+```
+
+To give a more professional look to our plot, we can modify the axis labels and add a title using the `labs()` function, like this:
+
+```{r}
+ggplot(data = penguins_clean, mapping = aes(x = island)) +
+  geom_bar() +
+  labs(title = "Number of penguins per island",
+       x = "Island",
+       y = "Count")
+```
+
+## Challenge: Make your own plot
+
+Using the penguins dataset, make your own plot. Look at the cheatsheet or the Graph Gallery for inspiration. To give you a couple of ideas, try a histogram or a box plot. Or add another variable to our previous scatter and bar plots.
+
+If you are up for a harder challenge, look into faceting, here is an example:
+
+```{r}
+ggplot(penguins_clean, aes(x = flipper_len, y = body_mass, color = species)) +
+  geom_point() + 
+  facet_wrap(~island) +
+  labs(title = "Size vs Weight Across Different Islands",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species")
+```
+
+# 5. Loading data
+
+Previously we used the `data()` function to load the penguins dataset, we could do that as it came built into R. But in more real-life scenarios, you'll need to read data from a file you have in your computer, maybe an Excel spreadsheet or a CSV (comma-separated values) file.
+
+To show this, we'll download data from Gapminder, a non-profit that gathers data on countries around the world. Follow these steps:
+
+1.  Visit <https://www.gapminder.org/data/> and download to your computer the CSV data for Life expectancy at birth.
+2.  Move this data inside your RStudio project. If you are using Posit Cloud, go to the Files pane, click 'Upload', and select the file from your computer's download folder. If you are using a local installation of RStudio, move the file to the project folder you are working on.
+3.  Create a new script file, and at the top run `library(tidyverse)`.
+4.  Use the `read_csv()` function, giving the path to the file as the argument, like this
+
+```{r}
+lex <- read_csv("lex.csv")
+```
+
+Note: If you want to read an Excel (XLS or XLSX) file instead, load `library(readxl)` also and use the `read_excel` function.
+
+# 6. Markdown and Quarto
+
+You might be wondering: How did we make this website that has text, R code, and plots all in one place? We used Markdown and Quarto.
+
+To show you this, let's create a new Quarto document by clicking File > New File > Quarto Document. Give your document a title, keep the other default options, and click Create.
+
+## What is Markdown?
+
+Markdown is a way to write a document using plain text. You can open a Markdown file on any computer, without needing a specialized application or the internet, unlike Google Docs, Microsoft Word, or PDFs.
+
+It uses specific syntax (special characters) to add styling to text instead of making you click formatting buttons in an application toolbar.
+
+Basic Markdown Syntax
+
+Here is how you format text in Markdown:
+
+Headers:
+
+```         
+# Biggest Header
+
+## Second Biggest Header
+
+### Third Biggest Header
+```
+
+Text Styles:
+
+```         
+*This text will be italicized* **This text will be bold**
+```
+
+Lists:
+
+```         
+-   Item 1
+-   Item 2
+    -   Sub-item A
+```
+
+## What is Quarto?
+
+Quarto is the engine that takes your Markdown file and "renders" it. It runs the R code, creates the graphs, and weaves everything into a beautiful final document (like this HTML page, a PDF, or even a presentation).
+
+This is a core skill in Reproducible Research: If your data changes tomorrow, you just click Render, and your entire report updates automatically!
+
+# Appendix
+
+Here, some plot examples with the penguins dataset
+
+```{r}
+# Histogram showing the distribution of bill depth
+ggplot(data = penguins_clean, mapping = aes(x = bill_dep)) +
+  geom_histogram()
+```
+
+```{r}
+# Histogram showing the distribution of bill depth, by sex
+ggplot(data = penguins_clean, mapping = aes(x = bill_dep, fill = sex)) +
+  geom_histogram()
+```
+
+```{r}
+# Box plot showing the distribution of body mass
+ggplot(data = penguins_clean, mapping = aes(y = body_mass)) +
+  geom_boxplot()
+```
+
+```{r}
+# Box plot showing the distribution of body mass, per island
+ggplot(data = penguins_clean, mapping = aes(x = island, y = body_mass)) +
+  geom_boxplot()
+```
