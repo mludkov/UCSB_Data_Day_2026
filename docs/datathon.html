@@ -159,20 +159,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p><strong>San Miguel Island</strong></p></li>
 <li><p><strong>Santa Rosa Island</strong></p></li>
-<li><p><strong>Santa Cruz Island</strong></p></li>
-<li><p><strong>Anacapa Island</strong></p></li>
-<li><p><strong>Santa Barbara Island</strong></p></li>
-<li><p><strong>San Nicolas Island</strong></p></li>
-<li><p><strong>San Clemente Island</strong></p></li>
-<li><p><strong>Santa Catalina Island</strong></p></li>
+<li><p>Santa Cruz Island</p></li>
+<li><p>Anacapa Island</p></li>
+<li><p>Santa Barbara Island</p></li>
+<li><p>San Nicolas Island</p></li>
+<li><p>San Clemente Island</p></li>
+<li><p>Santa Catalina Island</p></li>
 </ol>
+<p>Below we will only consider the two bolded islands: SMI and SRI</p>
 </section>
 <section id="channel-islands-national-park" class="level3">
 <h3 class="anchored" data-anchor-id="channel-islands-national-park"><a href="https://www.nps.gov/chis/index.htm">Channel Islands National Park</a></h3>
 <ul>
 <li>Includes <strong>five islands</strong>: <em>San Miguel</em>, <em>Santa Rosa</em>, <em>Santa Cruz</em>, <em>Anacapa</em>, and <em>Santa Barbara</em>.</li>
-<li>Sometimes called the <strong>“Galápagos of North America”</strong> for its rich biodiversity and many <strong>endemic species</strong>.</li>
-<li>Accessible only by <strong>boat or small plane</strong>.</li>
+<li>Sometimes called the “Galápagos of North America” for its rich biodiversity and many <strong>endemic species</strong>.</li>
+<li>Accessible only by <em>boat or small plane</em>.</li>
 <li>Ideal for hiking, kayaking, camping, and wildlife observation.</li>
 </ul>
 </section>
@@ -186,15 +187,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="island-fox-urocyon-littoralis" class="level2">
 <h2 class="anchored" data-anchor-id="island-fox-urocyon-littoralis">Island Fox (<em>Urocyon littoralis</em>)</h2>
-<p>The <strong>island fox</strong> is a small, charismatic canid species <strong>endemic</strong> to six of the eight <strong>Channel Islands</strong> off the coast of southern California. It’s one of the best examples of <strong>island dwarfism</strong>, having evolved from the mainland gray fox (<em>Urocyon cinereoargenteus</em>) to become significantly smaller.</p>
+<p>The <strong>island fox</strong> is a small, charismatic canid species <em>endemic</em> to six of the eight <em>Channel Islands</em> off the coast of southern California. It’s one of the best examples of <strong>island dwarfism</strong>, having evolved from the mainland gray fox (<em>Urocyon cinereoargenteus</em>) to become significantly smaller.</p>
 <p>In the <strong>1990s</strong>, several island fox populations faced <strong>near extinction</strong> due to golden eagle predation, canine distemper virus, and habitat degradation. The island fox was listed as endangered in 2004. Recovery efforts of the island fox included removal of golden eagles, vaccination and captive breeding programs, reintroduction of native bald eagles, and habitat restoration.</p>
 </section>
-<section id="activity-1" class="level2">
-<h2 class="anchored" data-anchor-id="activity-1">Activity 1</h2>
+<section id="hands-on-activity" class="level2">
+<h2 class="anchored" data-anchor-id="hands-on-activity">Hands-on Activity</h2>
+<p>First, please go through the <a href="#intro">Introduction</a> which includes data preparation and some basics of how this dataset looks like.<br>
+Depending on your level of comfort, work then on either <a href="#part1">Part I</a> (Easier) or <a href="#part2">Part II</a> (Advanced) challenges. If you’re ambitious, you can do both, or even come up with your own questions.</p>
+<p>For both groups, we have an <strong>Optional Share-Out</strong> during the last portion of the Datathon: participants can present one result of their choosing to the group. If you would like to do so, make sure to invest time in making a nice plot: play around with the plot <code>theme</code>, font sizes, color palettes, labels and layout. Google (via its automatic Gemini search results) is a good tool to dive deep into the myriad ggplot customization options. Note that <em>everything</em> in the plot can be customized to your choosing, that is (one of) the power of using a statistical package.</p>
 <p>As a start, you will investigate one of the two sections, <a href="#fox-weight">Fox Weight</a> or <a href="#fox-rs">Fox Reproductive Status</a>. Follow the guidelines in the section of your choice and complete one of the challenges. <strong>You may also analyze the data in any other way or work on the other section, but it is not necessary.</strong></p>
 </section>
-<section id="data-and-prep" class="level2">
-<h2 class="anchored" data-anchor-id="data-and-prep">Data and Prep</h2>
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Data and Prep</h2>
 <p>The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the <a href="https://github.com/mludkov/UCSB_Data_Day_2026/blob/gh-pages/data_for_datathon_2014_2016.csv">Databook</a>.</p>
 <section id="loading-packages" class="level3">
 <h3 class="anchored" data-anchor-id="loading-packages">Loading Packages</h3>
@@ -305,7 +309,7 @@ dttm (1): TrapDate
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(df, AgeClass, Weight, BodyCondition) <span class="co"># Removes the missing values (NA) using the variables AgeClass, Weight, and BodyCondition</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>After cleaning the data, this should result in 1,967 recorded foxes!</strong></p>
+<p><strong>After cleaning the data, this should result in 1,967 recorded foxes!</strong> This is the dataset that we will be using for the rest of this activity.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -315,8 +319,10 @@ dttm (1): TrapDate
 </section>
 </section>
 </section>
-<section id="fox-weight" class="level2">
-<h2 class="anchored" data-anchor-id="fox-weight">Fox Weight Analysis</h2>
+<section id="part1" class="level2">
+<h2 class="anchored" data-anchor-id="part1">Part I:</h2>
+<section id="fox-weight" class="level3">
+<h3 class="anchored" data-anchor-id="fox-weight">Fox Weight Analysis</h3>
 <p>Imagine you’re a field biologist tracking animal health across the remote Santa Rosa and San Miguel Islands. You’ve noticed that some animals seem heavier in certain years—but is it just your imagination, or is there a real trend?</p>
 <p>The <code>Weght</code> variable contains information of the Fox’s weight in kilograms. Let’s start by calculating the mean weight and standard deviation of weight using <code>mean()</code> and <code>sd()</code> functions:</p>
 <div class="cell">
@@ -365,6 +371,7 @@ Female   Male
 </div>
 </div>
 </div>
+</section>
 <section id="weight-vs-sex" class="level3">
 <h3 class="anchored" data-anchor-id="weight-vs-sex">Weight vs Sex</h3>
 <p>Let’s visualize the variable <code>Weight</code> and <code>Sex</code> with a boxplot using <code>ggplot</code>:</p>
@@ -472,8 +479,8 @@ Weight vs Sex over time by Island
 </div>
 </section>
 </section>
-<section id="questions-to-think-about" class="level3">
-<h3 class="anchored" data-anchor-id="questions-to-think-about">Questions to Think About</h3>
+<section id="questions-to-try-out" class="level3">
+<h3 class="anchored" data-anchor-id="questions-to-try-out">Questions to Try Out</h3>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -501,9 +508,8 @@ Body Condition
 </div>
 </div>
 </section>
-</section>
-<section id="fox-rs" class="level2">
-<h2 class="anchored" data-anchor-id="fox-rs">Fox Reproductive Status Analysis</h2>
+<section id="fox-rs" class="level3">
+<h3 class="anchored" data-anchor-id="fox-rs">Fox Reproductive Status Analysis</h3>
 <p>The <code>ReproductiveStatus</code> variable contains information of the Fox’s reproductive status when captures. This data is recorded as “N” (Not actively reproductive), “L” (Lactating), “SL” (Signs of Lactating), and “TD” (Testes Distended).</p>
 <p>We will use the <code>table()</code> and <code>prop.table()</code> function to get the frequencies and proportions for the <code>ReproductiveStatus</code>.</p>
 <div class="cell">
@@ -584,8 +590,9 @@ Body Condition
 </div>
 <p>The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see that the most common reproductive status is Unknown.</p>
 </section>
-<section id="challenges-questions-to-try-out" class="level3">
-<h3 class="anchored" data-anchor-id="challenges-questions-to-try-out">Challenges: Questions to try out</h3>
+</section>
+<section id="challenges" class="level3">
+<h3 class="anchored" data-anchor-id="challenges">Challenges</h3>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -605,11 +612,11 @@ Age Class
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Trap Results
+Skunking
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>How many skunks were caught each year? Are there more skunks on some island than others? (Look at <code>TrapResult</code>. Note that some skuns were caught but escaped!)</p>
+<p>How many skunks were caught each year? Are there more skunks on some island than others? (Look at <code>TrapResult</code>. Note that some skunks were caught but escaped, see the different possible values of this field!)</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -631,15 +638,174 @@ Fox Ages
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tagging
+Trap Effectiveness
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Each fox gets a unique Pit Tag. How many different foxes have been tagged? If you look at `CaptureType’ you can also analyze how many foxes have been observed multiple times.</p>
+<p>Analyze how often do the traps work (expressed as a success percentage). Namely, which Island and which Years yield the most foxes?</p>
 </div>
 </div>
+</section>
+</section>
+<section id="part2" class="level2">
+<h2 class="anchored" data-anchor-id="part2">Part 2: For More Advanced Participants</h2>
+<section id="tracking-foxes" class="level3">
+<h3 class="anchored" data-anchor-id="tracking-foxes">Tracking Foxes</h3>
+<p>Each fox gets a unique Pit Tag. This <code>Pittag</code> field allows to track a specific fox across time. For example, let’s consider fox with tag 989001000124022. It shows up in the following records:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df[<span class="fu">which</span>(df<span class="sc">$</span>Pittag<span class="sc">==</span><span class="dv">989001000124022</span>),])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Island</th>
+<th style="text-align: right;">SamplingYear</th>
+<th style="text-align: left;">GridCode</th>
+<th style="text-align: left;">TrapDate</th>
+<th style="text-align: right;">NightNumber</th>
+<th style="text-align: right;">TrapNumber</th>
+<th style="text-align: left;">TrapResult</th>
+<th style="text-align: left;">Pittag</th>
+<th style="text-align: left;">CaptureType</th>
+<th style="text-align: left;">Sex</th>
+<th style="text-align: right;">AgeClass</th>
+<th style="text-align: right;">Weight</th>
+<th style="text-align: left;">Weight_units</th>
+<th style="text-align: left;">BodyCondition</th>
+<th style="text-align: left;">ReproductiveStatus</th>
+<th style="text-align: left;">Vaccinations</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">SRI</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: left;">QC</td>
+<td style="text-align: left;">2016-08-03</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FOX</td>
+<td style="text-align: left;">989001000124022</td>
+<td style="text-align: left;">N</td>
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.55</td>
+<td style="text-align: left;">kg</td>
+<td style="text-align: left;">healthy wild</td>
+<td style="text-align: left;">UN</td>
+<td style="text-align: left;">RD</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SRI</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: left;">QC</td>
+<td style="text-align: left;">2016-08-05</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">FOX</td>
+<td style="text-align: left;">989001000124022</td>
+<td style="text-align: left;">R2</td>
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: left;">kg</td>
+<td style="text-align: left;">healthy wild</td>
+<td style="text-align: left;">UN</td>
+<td style="text-align: left;">N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SRI</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: left;">QC</td>
+<td style="text-align: left;">2016-08-07</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FOX</td>
+<td style="text-align: left;">989001000124022</td>
+<td style="text-align: left;">R2</td>
+<td style="text-align: left;">Female</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.15</td>
+<td style="text-align: left;">kg</td>
+<td style="text-align: left;">healthy wild</td>
+<td style="text-align: left;">UN</td>
+<td style="text-align: left;">N</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Looking at these records, we can see that it is a Female fox on Santa Rosa Island that was observed 3 times during the same week in August 2016. The first capture it was tagged (<code>CaptureType</code> = New) and then it was re-tagged twice more.</p>
+</section>
+<section id="questions-to-try-out-1" class="level3">
+<h3 class="anchored" data-anchor-id="questions-to-try-out-1">Questions to Try Out</h3>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tagging Statistics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many different foxes have been tagged? If you look at `CaptureType’ you can also analyze how many foxes have been observed multiple times. What fraction of foxes were observed just once? How many unique foxes are on each of the two islands?</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fox Life Story
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find an ``interesting’’ fox that has been observed across a lengthy interval of time (multiple months and years). Investigate its record and write down a story about the life of this fox. For example: how did its weight, reproductive and vaccination status evolve over time? The aim of this Challenge is to convert the data/numbers into a verbal narrative/words.</p>
+</div>
+</div>
+<section id="time-series" class="level4">
+<h4 class="anchored" data-anchor-id="time-series">Time Series</h4>
+<p>While above we considered the general <strong>population</strong> trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. <em>Time series</em>, where we put the date (in our case <code>TrapDate</code>) on the x-axis and the numeric variable of interest (say <code>Weight</code>) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough – it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fox Time Series
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Find foxes that are observed across multiple months/years and create time series plots for them. Report how your findings align or differ from the population-analysis we did in the Introduction.</p>
+</div>
+</div>
+</section>
+<section id="section" class="level4">
+<h4 class="anchored" data-anchor-id="section"></h4>
 
 
+</section>
 </section>
 </section>
 

@@ -30,23 +30,25 @@ The **Channel Islands** are a chain of eight islands located off the southern co
 
 2.  **Santa Rosa Island**
 
-3.  **Santa Cruz Island**
+3.  Santa Cruz Island
 
-4.  **Anacapa Island**
+4.  Anacapa Island
 
-5.  **Santa Barbara Island**
+5.  Santa Barbara Island
 
-6.  **San Nicolas Island**
+6.  San Nicolas Island
 
-7.  **San Clemente Island**
+7.  San Clemente Island
 
-8.  **Santa Catalina Island**
+8.  Santa Catalina Island
+
+Below we will only consider the two bolded islands: SMI and SRI
 
 ### [Channel Islands National Park](https://www.nps.gov/chis/index.htm)
 
 -   Includes **five islands**: *San Miguel*, *Santa Rosa*, *Santa Cruz*, *Anacapa*, and *Santa Barbara*.
--   Sometimes called the **"Galápagos of North America"** for its rich biodiversity and many **endemic species**.
--   Accessible only by **boat or small plane**.
+-   Sometimes called the "Galápagos of North America" for its rich biodiversity and many **endemic species**.
+-   Accessible only by *boat or small plane*.
 -   Ideal for hiking, kayaking, camping, and wildlife observation.
 
 ### Cultural and Historical Significance
@@ -56,24 +58,29 @@ The **Channel Islands** are a chain of eight islands located off the southern co
 
 ## Island Fox (*Urocyon littoralis*)
 
-The **island fox** is a small, charismatic canid species **endemic** to six of the eight **Channel Islands** off the coast of southern California. It's one of the best examples of **island dwarfism**, having evolved from the mainland gray fox (*Urocyon cinereoargenteus*) to become significantly smaller.
+The **island fox** is a small, charismatic canid species *endemic* to six of the eight *Channel Islands* off the coast of southern California. It's one of the best examples of **island dwarfism**, having evolved from the mainland gray fox (*Urocyon cinereoargenteus*) to become significantly smaller.
 
 In the **1990s**, several island fox populations faced **near extinction** due to golden eagle predation, canine distemper virus, and habitat degradation. The island fox was listed as endangered in 2004. Recovery efforts of the island fox included removal of golden eagles, vaccination and captive breeding programs, reintroduction of native bald eagles, and habitat restoration.
 
-## Activity 1
+## Hands-on Activity
+
+First, please go through the [Introduction](#intro) which includes data preparation and some basics of how this dataset looks like.  
+Depending on your level of comfort, work then on either [Part I](#part1) (Easier) or [Part II](#part2) (Advanced) challenges. If you're ambitious, you can do both, or even come up with your own questions.
+
+For both groups, we have an **Optional Share-Out** during the last portion of the Datathon: participants can present one result of their choosing to the group. If you would like to do so, make sure to invest time in making a nice plot: play around with the plot `theme`, font sizes, color palettes, labels and layout. Google (via its automatic Gemini search results) is a good tool to dive deep into the myriad ggplot customization options. Note that *everything* in the plot can be customized to your choosing, that is (one of) the power of using a statistical package.
 
 As a start, you will investigate one of the two sections, [Fox Weight](#fox-weight) or [Fox Reproductive Status](#fox-rs). Follow the guidelines in the section of your choice and complete one of the challenges. **You may also analyze the data in any other way or work on the other section, but it is not necessary.** 
 
 
-## Data and Prep
-
-Using the [tutorial](https://www.inqs.info/ci_datathon_25/tutorial.html) and example analysis, complete at least one of the challenges.
+## Data and Prep {#intro}
 
 
-The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the [Databook](https://www.inqs.info/ci_datathon_25/codebook_19052696).
+The data provided is part of an ongoing longitudinal study of island foxes from 2014 to 2016 of trap monitoring. This resulted in collection of 4,975 recorded trap observations, which may have contained a fox or not. Other information collected were Sex, Age Class, Weight, Body Condition, Reproductive Status, and Vaccinations. Information on the data collected can be found in the [Databook](https://github.com/mludkov/UCSB_Data_Day_2026/blob/gh-pages/data_for_datathon_2014_2016.csv).
 
 
 ### Loading Packages
+
+The `tidyverse` suite is a collection of data analysis packages:
 
 ```{r}
 library(tidyverse)
@@ -85,6 +92,7 @@ We will load the data into the R workspace using the `read_csv` function:
 
 ```{r}
 #| echo: true
+# Need to modify to load the file from the location where you downloaded it
 df <- read_csv(here::here("data_for_datathon_2014_2016.csv")) # Loads the Data Set into the object df
 ```
 
@@ -92,7 +100,7 @@ df <- read_csv(here::here("data_for_datathon_2014_2016.csv")) # Loads the Data S
 
 #### Renaming Categories
 
-Looking at the [Databook](https://www.inqs.info/ci_datathon_25/codebook_19052696), the variables `Vaccinations`, `ReproductiveStatus` and `BodyCondition` have interesting ways they are coded. In `Vaccinations`, missing values (`NA`) are considered as not vaccinated; therefore, changing the missing to "NV" will ensure that they are correctly classified, see data book. In `ReproductiveStatus`, the missing values (`NA`) indicate unknown reproductive status. In `BodyCondition`, the numerical values 1, 2, 3, 4, and 5, represent a condition. To make the condition easier, we will convert them to the categories. Run the code below to alter them:
+Looking at the [Codebook](https://github.com/mludkov/UCSB_Data_Day_2026/blob/gh-pages/IslandFoxes_codebook.pdf), the variables `Vaccinations`, `ReproductiveStatus` and `BodyCondition` are coded in interesting ways. In `Vaccinations`, missing values (`NA`) are considered as not vaccinated; therefore, changing the missing to "NV" will ensure that they are correctly classified. In `ReproductiveStatus`, the missing values (`NA`) indicate unknown reproductive status. In `BodyCondition`, the numerical values 1, 2, 3, 4, and 5, represent a condition. To make the condition easier, we will convert them to the categories. Run the code below to alter them:
 
 ```{r}
 df <- df |> mutate( # Will change the variables in the df data set
@@ -110,7 +118,7 @@ df <- df |> mutate( # Will change the variables in the df data set
 
 #### Missing Values
 
-Several variables in the data set may have missing values. Using the `summary()`, we can determine which variables have missing values by looking at the "NA's" category.
+Several variables in the data set may be missing. Using the `summary()`, we can determine which variables have missing values by looking at the "NA's" category.
 
 ```{r}
 summary(df)
@@ -123,17 +131,18 @@ We notice that the variables `AgeClass`, `Weight`, and `BodyCondition` have miss
 df <- drop_na(df, AgeClass, Weight, BodyCondition) # Removes the missing values (NA) using the variables AgeClass, Weight, and BodyCondition
 ```
 
-**After cleaning the data, this should result in 1,967 recorded foxes!**
+**After cleaning the data, this should result in 1,967 recorded foxes!** This is the dataset that we will be using for the rest of this activity.
 
 ```{r}
 nrow(df)
 ```
 
-## Fox Weight Analysis {#fox-weight}
+## Part I: {#part1}
+### Fox Weight Analysis {#fox-weight}
 
 Imagine you're a field biologist tracking animal health across the remote Santa Rosa and San Miguel Islands. You’ve noticed that some animals seem heavier in certain years—but is it just your imagination, or is there a real trend?
 
-The `Weght` variable contains information of the Fox's weight in killogrgms. Let's start by calculating the mean weight and standard deviation of weight using `mean()` and `sd()` functions:
+The `Weght` variable contains information of the Fox's weight in kilograms. Let's start by calculating the mean weight and standard deviation of weight using `mean()` and `sd()` functions:
 
 ```{r}
 mean_weight<-mean(df$Weight)
@@ -143,7 +152,7 @@ sd_weight #printing the values
 ```
 We see that mean weight of a fox is about 1.9 kg (which is about 4 pounds) with standard deviation about .41 kg.
 
-We will use the `table()` and `prop.table()` function to get the frequencies and proportions for the `Sex`.
+We use the `table()` and `prop.table()` functions to get the frequencies and proportions for the `Sex`.
 
 ```{r}
 count_df <- table(df$Sex) # Using the 'Sex' variable from the `df` data set, we count the frequencies of each category with the table function and storing it in rs_df.
@@ -156,20 +165,20 @@ Using the `table()` function, we can see that there were 923 female and 1044 mal
 prop.table(count_df) # Computing the Proportions of "rs_df"
 ```
 
-Using the `prop.table()` function, we can see that that there are slightly more male Foxes (about 53%) vs. female Foxes (about 47%).
+The `prop.table()` function shows the respective percentages: there are slightly more male Foxes (about 53%) vs. female Foxes (about 47%).
 
-We can visualize the data using the `ggplot` functions:
+We can visualize the data using the `ggplot` functions. Namely we build a bar plot that shows those above counts visually (with more Male than Female foxes):
 
 ```{r}
 ggplot(df) + # Setting up the data to create a plot.
-  geom_bar(aes(Sex)) # Creating a bar chart based on the variable "ReproductiveStatus"
+  geom_bar(aes(Sex)) + # Creating a bar chart based on the variable "ReproductiveStatus" 
+  theme(axis.title = element_text(size = 14), axis.text = element_text(size = 14))
 ```
 
-The bar plot demonstrates that there are more males than females.
 
 ### Weight vs Sex
 
-Let's visualize the variable `Weight` and `Sex` with a box plot using `ggplot`:
+Let's visualize the variable `Weight` and `Sex` with a boxplot using `ggplot`:
 
 ```{r}
 ggplot(df, aes(x = Sex, y = Weight)) +
@@ -180,7 +189,7 @@ ggplot(df, aes(x = Sex, y = Weight)) +
     y = "Weight"
   ) + theme_minimal()
 ```
-From the box plot we see that male Foxs tend to be slightly heavier than female Foxes.
+From the box plot we see that male Foxs tend to be slightly *heavier* than female Foxes.
 
 We can use `group_by()` function to separate male from female population and calculate means and standard deviations separately:
 
@@ -229,7 +238,7 @@ ggplot(weight_summary_yearly, aes(x = SamplingYear, y = mean_weight)) +
 ::: {.callout-note icon="false"}
 #### Weight vs Sex over time by Island
 
-Take a moment to conduct the same analysis for different `Islands` separately and comment on the trends you see:
+Here is a first question for you to answer: do the foxes on different islands have the same weight? Is there an island where the foxes are **significantly** heavier than others? To conduct such analysis, you can filter by different `Islands`:
 
 ```{r}
 #Santa Rosa Fox population 
@@ -242,27 +251,24 @@ SM_df<-filter(df,Island=="SMI")
 ```
 :::
 
-### Questions to Think About
+### Questions to Try Out
 
 ::: {.callout-tip icon="false"}
 #### Vaccinations
 
-Analyse the interaction between `Weight` and `Vaccinations`
+Do vaccinated foxes have a different weight compared to unvaccinated ones? To answer this, study the relationship between `Weight` and `Vaccinations`
 :::
 
 ::: {.callout-warning icon="false"}
-### Body Condition
+#### Body Condition
 
-Analyse the interaction between `Weight` and `BodyCondition`
+The dataset has a variable called `BodyCondition`. What proportion of foxes are well nourished? Do some islands have a larger proportion of "fat" foxes than others? How does `BodyCondition` connect with `Weight`? For the latter, you could look into scatter plots. 
+
 :::
 
-## Fox Reproductive Status Analysis {#fox-rs}
+### Fox Reproductive Status Analysis {#fox-rs}
 
 The `ReproductiveStatus` variable contains information of the Fox's reproductive status when captures. This data is recorded as "N" (Not actively reproductive), "L" (Lactating), "SL" (Signs of Lactating), and "TD" (Testes Distended).
-
-### Descriptive Statistics
-
-#### Reproductive Status
 
 We will use the `table()` and `prop.table()` function to get the frequencies and proportions for the `ReproductiveStatus`.
 
@@ -277,24 +283,15 @@ Using the `table()` function, we can see that there are 3 common reproductive st
 prop.table(rs_df) # Computing the Proportions of "rs_df"
 ```
 
-Using the `prop.table()` function, we can see that that the most common status is "TD" at 52.4% and the least common is "L" at the 0.9%. Both "SL" and "UN" represent 12.4% and 34.3% of the data, respectively.
-
-We can visualize the data using the `ggplot` functions:
+Using the `prop.table()` function, we can see that that the most common status is "TD" at 52.4% and the least common is "L" at the 0.9%. Both "SL" and "UN" represent 12.4% and 34.3% of the data, respectively. In barplot format we have:
 
 ```{r}
 ggplot(df) + # Setting up the data to create a plot.
   geom_bar(aes(ReproductiveStatus)) # Creating a bar chart based on the variable "ReproductiveStatus"
 ```
 
-The bar plot demonstrates that "TD" is the most common status in the data, and "L" is the least common status in the data.
 
-::: {.callout-note icon="false"}
-#### Analysing Sex
-
-Take a moment to conduct the same analysis with the `Sex` variable.
-:::
-
-### Sex and Reproductive Status
+#### Sex and Reproductive Status
 
 Let's compare the frequencies between the variables `Sex` and `Reproductive Status`. We will be using the same `table()` function:
 
@@ -315,33 +312,83 @@ Let's find the proportions for each the combination of the variables using the `
 prop.table(xy_df)
 ```
 
-We can see that 52.4% of the data are Male and "TD" foxes, 33.6% of the data are Female and "UN" foxes, and 12.4% of the data are Female and "SL" foxes.
-
-Let's visualize the variable `ReproductiveStatus` and `Sex` with a stacked bar plot:
+We can see that 52.4% of the data are Male and "TD" foxes, 33.6% of the data are Female and "UN" foxes, and 12.4% of the data are Female and "SL" foxes. To visualize how the variable `ReproductiveStatus` and `Sex` related to each other we use a stacked bar plot:
 
 ```{r}
 ggplot(df) +
-  geom_bar(aes(Sex, fill = ReproductiveStatus))
+  geom_bar(aes(Sex, fill = ReproductiveStatus)) +
+  theme_minimal() +
+  theme(axis.title = element_text(size = 14), axis.text = element_text(size = 14))
 ```
 
-The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see tha tthe most common reproductive status being unknown.
+The plot indicate which categories are most dominant in each sex. We can see that the most dominant reproductive status in Male foxes is testes distended. For Female foxes, we can see that the most common reproductive status is Unknown.
 
 ### Challenges
 
 ::: {.callout-note icon="false"}
 #### Age Class
 
-Analyse the interaction between `ReproductiveStatus` and `AgeClass`
+How does `ReproductiveStatus` relate to `AgeClass` (how old is the fox), to `Vaccinations`, and to `Capture Type`.
 :::
 
-::: {.callout-tip icon="false"}
-#### Vaccinations
 
-Analyse the interaction between `ReproductiveStatus` and `Vaccinations`
+::: {.callout-note icon="false"}
+#### Skunking
+
+How many skunks were caught each year? Are there more skunks on some island than others? (Look at `TrapResult`. Note that some skunks were caught but escaped, see the different possible values of this field!)
 :::
 
-::: {.callout-warning icon="false"}
-### Capture Type
+::: {.callout-note icon="false"}
+#### Fox Ages
 
-Analyse the interaction between `ReproductiveStatus` and `Capture Type`
+What is the Age distribution of the foxes? How many foxes are less than 1 year old? Does this vary by year or by island? (Look at `AgeClass`. Notice that it's a numeric variable)
 :::
+
+::: {.callout-note icon="false"}
+#### Trap Effectiveness
+
+Analyze how often do the traps work (expressed as a success percentage). Namely, which Island and which Years yield the most foxes?
+:::
+
+
+
+
+## Part 2: For More Advanced Participants {#part2}
+
+### Tracking Foxes
+
+Each fox gets a unique Pit Tag.  This `Pittag` field allows to track a specific fox across time. For example, let's consider fox with tag  989001000124022. It shows up in the following records:
+
+```{r}
+library(knitr)
+knitr::kable(df[which(df$Pittag==989001000124022),])
+```
+
+
+Looking at these records, we can see that it is a Female fox on Santa Rosa Island that was observed 3 times during the same week in August 2016. The first capture it was tagged (`CaptureType` = New) and then it was re-tagged twice more. 
+
+### Questions to Try Out
+
+::: {.callout-note icon="false"}
+#### Tagging Statistics
+How many different foxes have been tagged? If you look at `CaptureType' you can also analyze how many foxes have been observed multiple times. What fraction of foxes were observed just once? How many unique foxes are on each of the two islands?
+
+:::
+
+::: {.callout-note icon="false"}
+#### Fox Life Story
+
+Find an ``interesting'' fox that has been observed across a lengthy interval of time (multiple months and years). Investigate its record and write down a story about the life of this fox. For example: how did its weight, reproductive  and vaccination status evolve over time? The aim of this Challenge is to convert the data/numbers into a verbal narrative/words. 
+:::
+
+#### Time Series
+
+While above we considered the general **population** trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. *Time series*, where we put the date (in our case `TrapDate`) on the x-axis and the numeric variable of interest (say `Weight`) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough -- it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016. 
+
+::: {.callout-note icon="false"}
+#### Fox Time Series
+Find foxes that are observed across multiple months/years and create time series plots for them. Report how your findings align or differ from the population-analysis we did in the Introduction. 
+
+:::
+
+#### 
