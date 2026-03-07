@@ -330,6 +330,7 @@ How does `ReproductiveStatus` relate to `AgeClass` (how old is the fox), to `Vac
 ::: {.callout-note icon="false"}
 #### Skunking
 
+Reload the full dataset of 4975 record (not just foxes, and with all the NAs).
 How many skunks were caught each year? Are there more skunks on some island than others? (Look at `TrapResult`. Note that some skunks were caught but escaped, see the different possible values of this field!)
 :::
 
@@ -342,6 +343,7 @@ What is the Age distribution of the foxes? How many foxes are less than 1 year o
 ::: {.callout-note icon="false"}
 #### Trap Effectiveness
 
+(This is again about the full dataset with 4975 records).
 Analyze how often do the traps work (expressed as a success percentage). Namely, which Island and which Years yield the most foxes?
 :::
 
@@ -385,7 +387,7 @@ Find an ``interesting'' fox that has been observed across a lengthy interval of 
 
 While above we considered the general **population** trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. *Time series*, where we put the date (in our case `TrapDate`) on the x-axis and the numeric variable of interest (say `Weight`) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough -- it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016. 
 
-We can use the piping mechanism to simultaneously filter a specific fox and analyze its record. For instance below, we create a bar plot showing when a given fox was captured: 3 times in 2014 and twice in 2015:
+We can use the piping mechanism to simultaneously filter a specific fox and analyze its record. For instance below, we create a bar plot showing when a given fox was captured: twice in 2014 and twice in 2015:
 
 ```{r}
 df |> filter(Pittag==989001000415721) |>    # filter by pit tag

@@ -5446,7 +5446,7 @@ Skunking
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>How many skunks were caught each year? Are there more skunks on some island than others? (Look at <code>TrapResult</code>. Note that some skunks were caught but escaped, see the different possible values of this field!)</p>
+<p>Reload the full dataset of 4975 record (not just foxes, and with all the NAs). How many skunks were caught each year? Are there more skunks on some island than others? (Look at <code>TrapResult</code>. Note that some skunks were caught but escaped, see the different possible values of this field!)</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -5472,7 +5472,7 @@ Trap Effectiveness
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Analyze how often do the traps work (expressed as a success percentage). Namely, which Island and which Years yield the most foxes?</p>
+<p>(This is again about the full dataset with 4975 records). Analyze how often do the traps work (expressed as a success percentage). Namely, which Island and which Years yield the most foxes?</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -5629,7 +5629,7 @@ Fox Life Story
 <section id="time-series" class="level4">
 <h4 class="anchored" data-anchor-id="time-series">Time Series</h4>
 <p>While above we considered the general <strong>population</strong> trends of how foxes are across the years, this evidence is not so conclusive because potentially it is about different foxes. A stronger analysis would directly track the same fox across time. <em>Time series</em>, where we put the date (in our case <code>TrapDate</code>) on the x-axis and the numeric variable of interest (say <code>Weight</code>) on the y-axis serve this purpose. To be interesting however, the time span needs to be long enough – it is not so interesting to make a time series for fox 989001000124022 that was only ever observed over a single week in 2016.</p>
-<p>We can use the piping mechanism to simultaneously filter a specific fox and analyze its record. For instance below, we create a bar plot showing when a given fox was captured: 3 times in 2014 and twice in 2015:</p>
+<p>We can use the piping mechanism to simultaneously filter a specific fox and analyze its record. For instance below, we create a bar plot showing when a given fox was captured: twice in 2014 and twice in 2015:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(Pittag<span class="sc">==</span><span class="dv">989001000415721</span>) <span class="sc">|&gt;</span>    <span class="co"># filter by pit tag</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(SamplingYear))) <span class="co"># then plot only those rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
